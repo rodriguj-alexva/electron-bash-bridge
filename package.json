@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build:terminal": "esbuild terminal.js --bundle --platform=browser --outfile=terminal.bundle.js"
+    "build:terminal": "esbuild terminal.js --bundle --platform=browser --outfile=terminal.bundle.js",
+    "prestart": "npm run build:terminal"
   },
   "keywords": [],
   "author": "",
