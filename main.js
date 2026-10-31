@@ -1,9 +1,9 @@
 
-const { app, BrowserWindow, WebContentsView, ipcMain } = require('electron');
+const { app, BrowserWindow, WebContentsView, ipcMain, clipboard } = require('electron');
 const path = require('node:path');
 const pty = require('node-pty');
 
-function createWindow() {
+async function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 850,
@@ -29,6 +29,24 @@ function createWindow() {
     }
   });
 
+  let lastClipboardText = await clipboard.readText();  
+
+  const clipboardTimer = setInterval(async () => {
+    const currentText = await clipboard.readText();
+
+    if (currentText !== lastClipboardText) {
+      lastClipboardText = currentText;
+      if (!win.isDestroyed() && !win.webContents.isDestroyed()) {
+        win.webContents.send('clipboard-changed', currentText);
+        
+      }    
+    }
+  }, 500);
+
+  win.on('closed', () => {
+    clearInterval(clipboardTimer);
+  });
+
   ipcMain.on('terminal-input', (event, data) => {
     if (event.sender !== win.webContents) return;
 
@@ -51,6 +69,7 @@ function createWindow() {
 
   // Load our local application interface.
   win.loadFile('index.html');
+  win.webContents.openDevTools({ mode: 'detach' });
   win.webContents.once('did-finish-load', () => {
     win.setSize(1201, 850);
     win.setSize(1200, 850);

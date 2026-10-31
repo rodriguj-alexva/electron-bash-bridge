@@ -52,6 +52,13 @@
   <div id="divider"></div>
 
   <div id="bottom">
+    <div id="command-preview" style="display:none; padding:8px; background:#303030; color:white;">
+      <strong>Clipboard command:</strong>
+      <span id="command-text"></span>
+      <button id="execute-command" type="button" style="margin-left:10px;">
+        Execute
+      </button>
+    </div>
     <div id="terminal"></div>
   </div>
 <script>
@@ -81,6 +88,20 @@
     window.addEventListener('mousemove', drag);
     window.addEventListener('mouseup', stopDrag);
   });
+
+  window.electronAPI.onClipboardChanged((text) => {
+    console.log('Clipboard received:', text);
+
+    document.getElementById('command-text').textContent = text;
+    document.getElementById('command-preview').style.display = 'block';
+  });
+  
+  document.getElementById('execute-command').addEventListener('click', () => {
+    const command = document.getElementById('command-text').textContent;
+    window.electronAPI.sendTerminalInput(command + '\r');
+    document.getElementById('command-preview').style.display = 'none';
+  });
+  
 </script>
 
 <script src="./terminal.bundle.js"></script>
