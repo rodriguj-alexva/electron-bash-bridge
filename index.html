@@ -22,6 +22,18 @@
     #bottom {
       background: #101010;
       padding: 15px;
+      box-sizing: border-box;
+      height: calc(35vh - 8px);
+      overflow: auto;
+    }
+    #divider {
+      height: 8px;
+      background: #555;
+      cursor: row-resize;
+    }
+
+    #divider:hover {
+      background: #888;
     }
   </style>
 </head>
@@ -31,10 +43,43 @@
     <p>ChatGPT will appear here.</p>
   </div>
 
+  <div id="divider"></div>
+
   <div id="bottom">
     <h2>Bash Terminal</h2>
     <p>Terminal will appear here.</p>
   </div>
+<script>
+  const divider = document.getElementById('divider');
+
+  divider.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+
+    function drag(event) {
+      const percentage = Math.max(
+        20,
+        Math.min(80, (event.clientY / window.innerHeight) * 100)
+      );
+
+      document.getElementById('top').style.height =
+        percentage + 'vh';
+      window.electronAPI.setSplit(percentage);
+      document.getElementById('bottom').style.height =
+       `calc(${100 - percentage}vh - 8px)`;
+    }
+
+    function stopDrag() {
+      window.removeEventListener('mousemove', drag);
+      window.removeEventListener('mouseup', stopDrag);
+    }
+
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('mouseup', stopDrag);
+  });
+</script>
+
+
+
 </body>
 </html>
 
