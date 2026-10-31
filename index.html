@@ -3,6 +3,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="./node_modules/@xterm/xterm/css/xterm.css">
   <title>Electron Bash Bridge</title>
   <style>
     body {
@@ -35,6 +36,11 @@
     #divider:hover {
       background: #888;
     }
+    #terminal {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
   </style>
 </head>
 <body>
@@ -46,8 +52,7 @@
   <div id="divider"></div>
 
   <div id="bottom">
-    <h2>Bash Terminal</h2>
-    <p>Terminal will appear here.</p>
+    <div id="terminal"></div>
   </div>
 <script>
   const divider = document.getElementById('divider');
@@ -78,7 +83,7 @@
   });
 </script>
 
-
+<script src="./terminal.bundle.js"></script>
 
 </body>
 </html>

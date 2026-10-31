@@ -1,6 +1,7 @@
 
 const { app, BrowserWindow, WebContentsView, ipcMain } = require('electron');
 const path = require('node:path');
+const pty = require('node-pty');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -12,6 +13,39 @@ function createWindow() {
       contextIsolation: true,
       sandbox: true,
       preload: path.join(__dirname, 'preload.js')
+    }
+  });
+  
+  const bashProcess = pty.spawn('/bin/bash', [], {
+    name: 'xterm-256color',
+    cols: 80,
+    rows: 24,
+    cwd: process.env.HOME,
+    env: process.env
+  });
+  bashProcess.onData((data) => {
+    if (!win.isDestroyed() && !win.webContents.isDestroyed()) {
+      win.webContents.send('terminal-output', data);
+    }
+  });
+
+  ipcMain.on('terminal-input', (event, data) => {
+    if (event.sender !== win.webContents) return;
+
+    if (typeof data === 'string') {
+      bashProcess.write(data);
+    }
+  });
+  ipcMain.on('terminal-resize', (event, cols, rows) => {
+    if (event.sender !== win.webContents) return;
+
+    if (
+      Number.isInteger(cols) &&
+      Number.isInteger(rows) &&
+      cols > 0 &&
+      rows > 0
+    ) {
+      bashProcess.resize(cols, rows);
     }
   });
 
