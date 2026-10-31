@@ -17,6 +17,25 @@ terminal.loadAddon(fitAddon);
 terminal.open(document.getElementById('terminal'));
 fitAddon.fit();
 
+terminal.attachCustomKeyEventHandler((event) => {
+  if (
+    event.type === 'keydown' &&
+    event.ctrlKey &&
+    event.shiftKey &&
+    event.code === 'KeyC'
+  ) {
+    const selectedText = terminal.getSelection();
+
+    if (selectedText) {
+      navigator.clipboard.writeText(selectedText);
+    }
+
+    return false;
+  }
+
+  return true;
+});
+
 const resizeObserver = new ResizeObserver(() => {
   fitAddon.fit();
 
