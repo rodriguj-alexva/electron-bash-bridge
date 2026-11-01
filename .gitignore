@@ -4,3 +4,5 @@ out/
 *.log
 .env
 terminal.bundle.js
+history*txt
+
