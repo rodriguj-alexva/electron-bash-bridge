@@ -56,18 +56,23 @@
 
   <div id="divider"></div>
 
-  <div id="bottom">
-    <div id="command-preview" style="display:none; padding:8px; background:#303030; color:white;">
+  <div id="command-preview" style="display:block; padding:8px; background:#303030; color:white;">
       <strong>Clipboard command:</strong>
       <span id="command-text"></span>
       <button id="execute-command" type="button" style="margin-left:10px;">
         Execute
       </button>
+      <button id="clear-terminal" type="button" style="margin-left:10px;">
+        Clear Terminal
+      </button>
    
-    </div>
-    <button id="copy-output" type="button" style="margin-left:10px;">
-      Copy Output
-    </button>
+  </div>
+  <button id="copy-output" type="button" style="margin-left:10px;">
+    Copy Output
+  </button>
+
+  <div id="bottom">
+    
     <div id="terminal"></div>
   </div>
 <script>
@@ -110,7 +115,7 @@
     window.resetCommandOutput();
     window.electronAPI.sendTerminalInput(command + '\r');
     // window.electronAPI.commandExecuted();
-    document.getElementById('command-preview').style.display = 'none';
+    document.getElementById('command-text').textContent = '';
   });
  
   document.getElementById('go-url').addEventListener('click', () => {

@@ -77,3 +77,7 @@ window.resetCommandOutput = () => {
   commandOutput = '';
 };
 
+document.getElementById('clear-terminal')
+  .addEventListener('click', () => {
+    terminal.clear();
+  });
