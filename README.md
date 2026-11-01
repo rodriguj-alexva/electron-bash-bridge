@@ -71,9 +71,25 @@ Review every command before executing it, especially commands that modify files,
 
 ## Project status
 
-Early development — version 0.1.
+**Version 0.1 — Early development**
 
-Planned improvements include support for additional AI webpages, improved terminal output capture, and packaged releases for multiple operating systems.
+The current version supports:
+
+- ChatGPT as the embedded AI webpage.
+- Bash as the local terminal shell.
+- Bidirectional clipboard communication between ChatGPT and Bash.
+
+### Planned features
+
+Future versions are intended to support:
+
+- **Configurable AI webpage:** Enter any URL instead of being restricted to ChatGPT, allowing services such as Claude, Gemini, and other web-based AI assistants.
+- **Configurable shell:** Select alternative shells such as Zsh, Fish, PowerShell, or other supported command interpreters.
+- **Cross-platform support:** Run on Linux, Windows, and macOS.
+- Improved terminal output capture and clipboard handling.
+- Packaged application releases for easier installation.
+
+The long-term goal is a flexible, platform-independent bridge between web-based AI assistants and local command-line environments, without requiring AI API integration.
 
 ## License
 
