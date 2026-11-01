@@ -45,6 +45,11 @@
 </head>
 <body>
   <div id="top">
+    <div id="url-bar">
+      <input id="ai-url" type="text" value="https://chatgpt.com"
+            placeholder="Enter website URL">
+      <button id="go-url" type="button">Go</button>
+    </div>
     <h2>AI Webpage</h2>
     <p>ChatGPT will appear here.</p>
   </div>
@@ -106,6 +111,14 @@
     window.electronAPI.sendTerminalInput(command + '\r');
     // window.electronAPI.commandExecuted();
     document.getElementById('command-preview').style.display = 'none';
+  });
+ 
+  document.getElementById('go-url').addEventListener('click', () => {
+    const url = document.getElementById('ai-url').value.trim();
+
+    if (url) {
+      window.electronAPI.changeAIURL(url);
+    }
   });
   
 </script>

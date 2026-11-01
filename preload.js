@@ -22,6 +22,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onClipboardChanged: (callback) =>
     ipcRenderer.on('clipboard-changed', (_event, text) => callback(text)),
 
-  commandExecuted: () => ipcRenderer.send('command-executed')
+  commandExecuted: () => ipcRenderer.send('command-executed'),
+
+  changeAIURL: (url) => ipcRenderer.send('change-ai-url', url)
 
 });

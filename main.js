@@ -15,6 +15,7 @@ async function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     }
   });
+  win.setMenuBarVisibility(false);
   
   const bashProcess = pty.spawn('/bin/bash', [], {
     name: 'xterm-256color',
@@ -98,9 +99,9 @@ async function createWindow() {
 
     aiView.setBounds({
       x: 0,
-      y: 0,
+      y: 40,
       width: width,
-      height: Math.floor(height * splitPercentage / 100) - 8
+      height: Math.floor(height * splitPercentage / 100) - 48
     });
   }
 
@@ -118,14 +119,31 @@ async function createWindow() {
 
     aiView.setBounds({
         x: 0,
-        y: 0,
+        y: 40,
         width: width,
-        height: Math.floor(height * split / 100) - 8
+        height: Math.floor(height * split / 100) - 48
       });
   });
 
   // Load ChatGPT.
-  aiView.webContents.loadURL('https://chatgpt.com');
+  let aiURL = 'https://chatgpt.com';
+  aiView.webContents.loadURL(aiURL); 
+
+  ipcMain.on('change-ai-url', (event, url) => {
+    if (event.sender !== win.webContents) return;
+
+    try {
+      const parsedURL = new URL(url);
+
+      if (!['https:', 'http:'].includes(parsedURL.protocol)) return;
+
+      aiURL = parsedURL.href;
+      aiView.webContents.loadURL(aiURL);
+    } catch (error) {
+      console.error('Invalid URL:', url);
+    }
+  });
+  
 //  aiView.webContents.openDevTools({ mode: 'detach' });
 
   // Close the embedded browser when the window closes.
