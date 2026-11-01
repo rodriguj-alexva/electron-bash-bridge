@@ -58,7 +58,11 @@
       <button id="execute-command" type="button" style="margin-left:10px;">
         Execute
       </button>
+   
     </div>
+    <button id="copy-output" type="button" style="margin-left:10px;">
+      Copy Output
+    </button>
     <div id="terminal"></div>
   </div>
 <script>
@@ -98,7 +102,9 @@
   
   document.getElementById('execute-command').addEventListener('click', () => {
     const command = document.getElementById('command-text').textContent;
+    window.resetCommandOutput();
     window.electronAPI.sendTerminalInput(command + '\r');
+    // window.electronAPI.commandExecuted();
     document.getElementById('command-preview').style.display = 'none';
   });
   

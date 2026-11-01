@@ -20,6 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.send('terminal-resize', cols, rows);
   },
   onClipboardChanged: (callback) =>
-    ipcRenderer.on('clipboard-changed', (_event, text) => callback(text))
+    ipcRenderer.on('clipboard-changed', (_event, text) => callback(text)),
+
+  commandExecuted: () => ipcRenderer.send('command-executed')
 
 });

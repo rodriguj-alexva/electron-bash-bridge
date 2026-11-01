@@ -49,10 +49,22 @@ resizeObserver.observe(document.getElementById('terminal'));
 
 terminal.writeln('Electron Bash Bridge v0.1');
 terminal.writeln('Terminal initialized.');
+let commandOutput = '';
 window.electronAPI.onTerminalOutput((data) => {
-  terminal.write(data);
+    commandOutput += data;
+    terminal.write(data);
 });
 
 terminal.onData((data) => {
-  window.electronAPI.sendTerminalInput(data);
+    window.electronAPI.sendTerminalInput(data);
 });
+
+document.getElementById('copy-output').addEventListener('click', async () => {
+  await navigator.clipboard.writeText(commandOutput);
+  console.log('Terminal output copied to clipboard');
+});
+
+window.resetCommandOutput = () => {
+  commandOutput = '';
+};
+

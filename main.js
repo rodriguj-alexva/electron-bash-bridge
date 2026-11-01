@@ -29,7 +29,12 @@ async function createWindow() {
     }
   });
 
-  let lastClipboardText = await clipboard.readText();  
+  let lastClipboardText = await clipboard.readText();
+  
+  ipcMain.on('command-executed', (event) => {
+    if (event.sender !== win.webContents) return;
+    lastClipboardText = '';
+  });
 
   const clipboardTimer = setInterval(async () => {
     const currentText = await clipboard.readText();
