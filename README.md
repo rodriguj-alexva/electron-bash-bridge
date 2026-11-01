@@ -93,4 +93,7 @@ The long-term goal is a flexible, platform-independent bridge between web-based 
 
 ## License
 
-License to be determined.
+Electron Bash Bridge is released into the public domain under
+[The Unlicense](https://unlicense.org/).
+
+See the [LICENSE](LICENSE) file for details.
