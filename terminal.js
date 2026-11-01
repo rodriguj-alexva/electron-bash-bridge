@@ -60,7 +60,16 @@ terminal.onData((data) => {
 });
 
 document.getElementById('copy-output').addEventListener('click', async () => {
-  await navigator.clipboard.writeText(commandOutput);
+  const cleanOutput = commandOutput
+      .replace(/\x1B\][^\x07\x1B]*(?:\x07|\x1B\\)/g, '')
+      .replace(/\x1B\[[0-?]*[ -/]*[@-~]/g, '');
+
+  const outputWithoutPrompt = cleanOutput
+    .replace(/\r/g, '')
+    .replace(/\n[^\n]*[$#]\s*$/, '')
+    .trimEnd();
+
+  await navigator.clipboard.writeText(outputWithoutPrompt);
   console.log('Terminal output copied to clipboard');
 });
 

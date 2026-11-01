@@ -74,7 +74,7 @@ async function createWindow() {
 
   // Load our local application interface.
   win.loadFile('index.html');
-  win.webContents.openDevTools({ mode: 'detach' });
+  // win.webContents.openDevTools({ mode: 'detach' });
   win.webContents.once('did-finish-load', () => {
     win.setSize(1201, 850);
     win.setSize(1200, 850);
